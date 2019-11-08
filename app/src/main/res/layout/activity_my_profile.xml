@@ -23,9 +23,10 @@
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:text="Homer"
+        android:textSize="24sp"
         android:textStyle="bold" />
 
-    <TextView
+    <EditText
         android:id="@+id/description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -95,7 +96,7 @@
     </RadioGroup>
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/contri_friends"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/gender"
@@ -111,7 +112,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv1"
+                android:id="@+id/contriCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -137,7 +138,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv2"
+                android:id="@+id/friendsCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -156,6 +157,35 @@
         </LinearLayout>
 
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/contri_friends"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+
+        <Button
+            android:id="@+id/save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Save Change" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/cancle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Cancel" />
     </LinearLayout>
 
 </RelativeLayout>

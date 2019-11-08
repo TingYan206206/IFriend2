@@ -56,6 +56,7 @@ public class MainPage extends AppCompatActivity implements View.OnClickListener{
 
         }else if(item.getItemId() == R.id.myProfile){
             Intent intent = new Intent(getApplicationContext(), MyProfile.class);
+            intent.putExtra("name", ParseUser.getCurrentUser().getUsername());
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);

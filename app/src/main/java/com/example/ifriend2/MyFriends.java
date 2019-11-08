@@ -2,8 +2,11 @@ package com.example.ifriend2;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.nfc.Tag;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -30,6 +33,15 @@ public class MyFriends extends AppCompatActivity {
 
         myAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, myFriends);
         myFriendsListView.setAdapter(myAdapter);
+        myFriendsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                // to do go to Profile page to load friend info
+                Intent intent = new Intent(getApplicationContext(), MyProfile.class);
+                intent.putExtra("name", myFriends.get(i));
+                startActivity(intent);
+            }
+        });
 
         retriveFriends();
 
@@ -52,13 +64,10 @@ public class MyFriends extends AppCompatActivity {
                     for (ParseUser user : objects) {
                         myFriends.add(user.getUsername());
                     }
-
                     myAdapter.notifyDataSetChanged();
-
                 }
             }
         });
-
         myFriends.add("a");
         myFriends.add("b");
         myFriends.add("c");
