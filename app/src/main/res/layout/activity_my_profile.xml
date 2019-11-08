@@ -33,6 +33,7 @@
         android:layout_below="@+id/name"
         android:layout_centerHorizontal="true"
         android:gravity="center"
+        android:hint="Add your description"
         android:text="I love Math and TV show"
         android:textStyle="italic" />
 

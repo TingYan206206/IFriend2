@@ -10,15 +10,19 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.List;
 
 public class MyProfile extends AppCompatActivity implements View.OnClickListener{
 
-    TextView mName;
-    EditText mEmail, mMajor,mHobby;
+    TextView mName, mFriendsCount;
+    EditText mDescription, mEmail, mMajor, mHobby;
     Boolean isMyProfile;
+    String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,16 +35,16 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
         Intent intent =getIntent();
         if(intent.hasExtra("name")) {
             isMyProfile = false;
-            String name = intent.getStringExtra("name");
+            name = intent.getStringExtra("name");
             disableMyProfile();
-            retriveProfile(name);
-
 
         }else{
             isMyProfile = true;
+            name = ParseUser.getCurrentUser().getUsername();
             enableMyProfile();
             Toast.makeText(this, "Cannot load Profile information", Toast.LENGTH_SHORT).show();
         }
+        retriveProfile();
 
         Log.i("My profile: ", "on create");
     }
@@ -48,9 +52,11 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
 
     private void initializeComponents(){
         mName = findViewById(R.id.name);
+        mDescription = findViewById(R.id.description);
         mEmail = findViewById(R.id.email);
         mMajor = findViewById(R.id.major);
         mHobby = findViewById(R.id.hobby);
+        mFriendsCount = findViewById(R.id.friendsCount);
 
 
         findViewById(R.id.save).setOnClickListener(this);
@@ -84,11 +90,28 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
 
     }
 
-    private void retriveProfile(String name){
-
-
-
+    private void retriveProfile(){
         mName.setText(name);
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+
+        query.whereEqualTo("username",name);
+
+//        String email, major, friendsCount;
+        query.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> objects, ParseException e) {
+               if( e == null && objects.size() > 0){
+                   if(objects.size() == 1){
+                        mEmail.setText(objects.get(0).getString("email"));
+                        mMajor.setText(objects.get(0).getString("major"));
+                        mFriendsCount.setText(Integer.toString(objects.get(0).getList("friends").size()));
+
+                   }else{
+                       Log.i("get user profile error:", "more than one record");
+                   }
+               }
+            }
+        });
 
         // to do: use name to do query and populate other profile info
     }
