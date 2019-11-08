@@ -10,10 +10,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.ParseUser;
+
+import java.util.List;
+
 public class MyProfile extends AppCompatActivity implements View.OnClickListener{
 
     TextView mName;
     EditText mEmail, mMajor,mHobby;
+    Boolean isMyProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,11 +30,15 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
 
         Intent intent =getIntent();
         if(intent.hasExtra("name")) {
+            isMyProfile = false;
             String name = intent.getStringExtra("name");
+            disableMyProfile();
             retriveProfile(name);
 
 
         }else{
+            isMyProfile = true;
+            enableMyProfile();
             Toast.makeText(this, "Cannot load Profile information", Toast.LENGTH_SHORT).show();
         }
 
@@ -43,8 +52,11 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
         mMajor = findViewById(R.id.major);
         mHobby = findViewById(R.id.hobby);
 
+
         findViewById(R.id.save).setOnClickListener(this);
         findViewById(R.id.cancle).setOnClickListener(this);
+        findViewById(R.id.addFriend).setOnClickListener(this);
+
 
     }
 
@@ -60,6 +72,10 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
             //If delete note, call deleteNewestNote()
             case R.id.cancle:
                 Log.i("My profile:","cancel button clicked");
+                break;
+            case R.id.addFriend:
+                Log.i("My profile:","add friend button clicked");
+                addFriend();
                 break;
             //This shouldn't happen
             default:
@@ -77,5 +93,39 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
         // to do: use name to do query and populate other profile info
     }
 
+    private void enableMyProfile(){
+        findViewById(R.id.save).setEnabled(true);
+        findViewById(R.id.cancle).setEnabled(true);
+        findViewById(R.id.save).setVisibility(View.VISIBLE);
+        findViewById(R.id.cancle).setVisibility(View.VISIBLE);
 
+        findViewById(R.id.addFriend).setEnabled(false);
+        findViewById(R.id.addFriend).setVisibility(View.INVISIBLE);
+
+    }
+
+    private void disableMyProfile(){
+        findViewById(R.id.save).setEnabled(false);
+        findViewById(R.id.cancle).setEnabled(false);
+        findViewById(R.id.save).setVisibility(View.INVISIBLE);
+        findViewById(R.id.cancle).setVisibility(View.INVISIBLE);
+
+        findViewById(R.id.addFriend).setEnabled(true);
+        findViewById(R.id.addFriend).setVisibility(View.VISIBLE);
+
+    }
+
+
+    private void saveChanges(){
+
+    }
+
+    private void addFriend(){
+        List tempFriends = ParseUser.getCurrentUser().getList("friends");
+        String friendName = mName.getText().toString();
+        tempFriends.add(friendName);
+        ParseUser.getCurrentUser().put("friends",tempFriends);
+        ParseUser.getCurrentUser().saveInBackground();
+        Toast.makeText(this, "add "+ friendName + " to my friend list", Toast.LENGTH_SHORT).show();
+    }
 }
