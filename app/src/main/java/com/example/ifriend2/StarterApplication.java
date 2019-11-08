@@ -31,10 +31,12 @@ public class StarterApplication extends Application {
         Parse.enableLocalDatastore(this);
 
 
-        //
+        // cd Desktop
+        // see aws for direction
         // cd apps/parse/htdocs/
         // vi server.js
         // //bitmani parse name: user, key: PlpC3SoVm0Hc
+        // Instance ID : i-04e600a14ec347a6c
 
 
         // Add your initialization code here
@@ -60,20 +62,7 @@ public class StarterApplication extends Application {
 //            }
 //        });
 
-//        ParseObject score = new ParseObject("Score");
-//        score.put("username", "nick");
-//        score.put("score", 45);
-//        score.saveInBackground(new SaveCallback() {
-//            @Override
-//            public void done(ParseException e) {
-//                if(e == null){
-//                    // ok
-//                    Log.i("success", "saved");
-//                }else{
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
+
 
 
         ParseUser.enableAutomaticUser();

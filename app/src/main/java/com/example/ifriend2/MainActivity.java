@@ -67,17 +67,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void done(ParseUser user, ParseException e) {
                         if(user != null){
                             Log.i("success ", "loged in ");
+                            enterMainPage();
                         }else {
                             Log.i("failed ", "loged in ");
                             e.printStackTrace();
                             Toast.makeText(MainActivity.this, "wrong user or/and password, please try again", Toast.LENGTH_SHORT).show();
-
                         }
                     }
                 });
-
-                // then enter main page
-                enterMainPage();
 
             }
         }
