@@ -42,7 +42,7 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
             isMyProfile = true;
             name = ParseUser.getCurrentUser().getUsername();
             enableMyProfile();
-            Toast.makeText(this, "Cannot load Profile information", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Cannot load Profile information", Toast.LENGTH_SHORT).show();
         }
         retriveProfile();
 
@@ -93,10 +93,7 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
     private void retriveProfile(){
         mName.setText(name);
         ParseQuery<ParseUser> query = ParseUser.getQuery();
-
         query.whereEqualTo("username",name);
-
-//        String email, major, friendsCount;
         query.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> objects, ParseException e) {

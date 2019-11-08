@@ -23,9 +23,15 @@ public class MainPage extends AppCompatActivity implements View.OnClickListener{
                 //If new Note, call createNewNote()
                 Log.i(TAG," mu friends button clicked");
                 Intent intent = new Intent(getApplicationContext(), MyFriends.class);
+                intent.putExtra("isMyFriend", "true");
                 startActivity(intent);
                 break;
-            //If delete note, call deleteNewestNote()
+            case R.id.recommandBtn:
+                //If new Note, call createNewNote()
+                Log.i(TAG," mu friends button clicked");
+                intent = new Intent(getApplicationContext(), MyFriends.class);
+                startActivity(intent);
+                break;
             case R.id.searchBtn:
                 Log.i(TAG,"search button clicked");
                 break;
@@ -70,6 +76,8 @@ public class MainPage extends AppCompatActivity implements View.OnClickListener{
         findViewById(R.id.searchBtn).setOnClickListener(this);
         findViewById(R.id.myFriendsBtn).setOnClickListener(this);
         findViewById(R.id.messageBtn).setOnClickListener(this);
+        findViewById(R.id.recommandBtn).setOnClickListener(this);
+
 
 
     }

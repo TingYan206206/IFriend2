@@ -32,10 +32,17 @@
         android:text="New Search" />
 
     <Button
-        android:id="@+id/messageBtn"
+        android:id="@+id/recommandBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="300dp"
+        android:text="Recommand Friend" />
+
+    <Button
+        android:id="@+id/messageBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="400dp"
         android:text="Message" />
 
 </RelativeLayout>
