@@ -4,13 +4,40 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.parse.ParseUser;
 
-public class MainPage extends AppCompatActivity {
+public class MainPage extends AppCompatActivity implements View.OnClickListener{
+
+    private static final String TAG = "MainPage";
+    @Override
+    public void onClick(View view) {
+        Log.i("main page", "button clicked" );
+        switch (view.getId()){
+            case R.id.myFriendsBtn:
+                //If new Note, call createNewNote()
+                Log.i(TAG," mu friends button clicked");
+                Intent intent = new Intent(getApplicationContext(), MyFriends.class);
+                startActivity(intent);
+                break;
+            //If delete note, call deleteNewestNote()
+            case R.id.searchBtn:
+                Log.i(TAG,"search button clicked");
+                break;
+            case R.id.messageBtn:
+                Log.i(TAG,"message button clicked");
+                break;
+            //This shouldn't happen
+            default:
+                break;
+        }
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -39,6 +66,10 @@ public class MainPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
         //setTitle("iFriend");
+        findViewById(R.id.searchBtn).setOnClickListener(this);
+        findViewById(R.id.myFriendsBtn).setOnClickListener(this);
+        findViewById(R.id.messageBtn).setOnClickListener(this);
+
 
     }
 }
