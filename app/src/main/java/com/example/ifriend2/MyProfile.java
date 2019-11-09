@@ -1,7 +1,9 @@
 package com.example.ifriend2;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,8 +14,10 @@ import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.List;
 
@@ -188,12 +192,48 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
     }
 
     private void addFriend(){
-        List tempFriends = ParseUser.getCurrentUser().getList("friends");
-        String friendName = mName.getText().toString();
-        tempFriends.add(friendName);
-        ParseUser.getCurrentUser().put("friends",tempFriends);
-        ParseUser.getCurrentUser().saveInBackground();
-        Toast.makeText(this, "add "+ friendName + " to my friend list", Toast.LENGTH_SHORT).show();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Send a Friend Request");
+        final EditText requestEditText = new EditText(this);
+        builder.setView(requestEditText);
+        builder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                ParseObject message = new ParseObject("Message");
+                message.put("from", ParseUser.getCurrentUser().getUsername());
+                message.put("to", mName.getText().toString());
+                message.put("message", requestEditText.getText().toString());
+
+                message.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if(e == null){
+                            Toast.makeText(MyProfile.this, "Friend request sent", Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(MyProfile.this, "Friend request failed", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+        builder.show();
+
+
+//        List tempFriends = ParseUser.getCurrentUser().getList("friends");
+//        String friendName = mName.getText().toString();
+//        tempFriends.add(friendName);
+//        ParseUser.getCurrentUser().put("friends",tempFriends);
+//        ParseUser.getCurrentUser().saveInBackground();
+//        Toast.makeText(this, "add "+ friendName + " to my friend list", Toast.LENGTH_SHORT).show();
+
+
     }
 
     private void removeFriend(){
