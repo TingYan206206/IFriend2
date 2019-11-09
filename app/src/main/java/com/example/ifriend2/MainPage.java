@@ -37,6 +37,8 @@ public class MainPage extends AppCompatActivity implements View.OnClickListener{
                 break;
             case R.id.messageBtn:
                 Log.i(TAG,"message button clicked");
+                Intent messageIntent = new Intent(getApplicationContext(), Message.class);
+                startActivity(messageIntent);
                 break;
             //This shouldn't happen
             default:

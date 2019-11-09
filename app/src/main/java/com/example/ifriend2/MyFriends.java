@@ -96,11 +96,6 @@ public class MyFriends extends AppCompatActivity {
                 }
             });
         }
-        
-
-
-       
-
 
     }
 }
