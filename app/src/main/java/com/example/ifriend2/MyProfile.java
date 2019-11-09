@@ -21,7 +21,7 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
 
     TextView mName, mFriendsCount;
     EditText mDescription, mEmail, mMajor, mHobby;
-    Boolean isMyProfile;
+    Boolean isMyProfile, isMyFriend;
     String name;
 
     @Override
@@ -34,11 +34,17 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
 
         Intent intent =getIntent();
         if(intent.hasExtra("name")) {
+            // see other's file
             isMyProfile = false;
             name = intent.getStringExtra("name");
+            isMyFriend = intent.getBooleanExtra("isfriendList", false);
+//            isMyFriend = false;
+//            setIsMyFriend(name);
+            Log.i("profile:isFriend?", isMyFriend.toString());
             disableMyProfile();
 
         }else{
+            // see user's own profile
             isMyProfile = true;
             name = ParseUser.getCurrentUser().getUsername();
             enableMyProfile();
@@ -62,7 +68,7 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
         findViewById(R.id.save).setOnClickListener(this);
         findViewById(R.id.cancle).setOnClickListener(this);
         findViewById(R.id.addFriend).setOnClickListener(this);
-
+        findViewById(R.id.removeFriend).setOnClickListener(this);
 
     }
 
@@ -82,6 +88,10 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
             case R.id.addFriend:
                 Log.i("My profile:","add friend button clicked");
                 addFriend();
+                break;
+            case R.id.removeFriend:
+                Log.i("My profile:","remove friend button clicked");
+
                 break;
             //This shouldn't happen
             default:
@@ -109,8 +119,36 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
                }
             }
         });
+    }
 
-        // to do: use name to do query and populate other profile info
+    private void setIsMyFriend(String name){
+        final String searchName = name;
+
+        Log.i("search friend1", name);
+        Log.i("search friend", searchName);
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereEqualTo("username",ParseUser.getCurrentUser().getUsername());
+        query.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> objects, ParseException e) {
+                if( e == null && objects.size() > 0){
+                    if(objects.size() == 1 && objects.get(0).getList("friends").size() > 0){
+
+                        for (Object friend : objects.get(0).getList("friends")) {
+                            Log.i("friend list", friend.toString());
+                            if(friend.toString().equals(searchName)){
+                                isMyFriend = true;
+                                Log.i("inside:", "is my friend");
+                            }
+                        }
+
+                    }else{
+                        Log.i("get user profile error:", "more than one record");
+                    }
+                }
+            }
+        });
+
     }
 
     private void enableMyProfile(){
@@ -121,6 +159,8 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
 
         findViewById(R.id.addFriend).setEnabled(false);
         findViewById(R.id.addFriend).setVisibility(View.INVISIBLE);
+        findViewById(R.id.removeFriend).setEnabled(false);
+        findViewById(R.id.removeFriend).setVisibility(View.INVISIBLE);
 
     }
 
@@ -130,8 +170,15 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
         findViewById(R.id.save).setVisibility(View.INVISIBLE);
         findViewById(R.id.cancle).setVisibility(View.INVISIBLE);
 
-        findViewById(R.id.addFriend).setEnabled(true);
         findViewById(R.id.addFriend).setVisibility(View.VISIBLE);
+        findViewById(R.id.removeFriend).setVisibility(View.VISIBLE);
+        if(isMyFriend){
+            findViewById(R.id.addFriend).setEnabled(false);
+            findViewById(R.id.removeFriend).setEnabled(true);
+        }else{
+            findViewById(R.id.addFriend).setEnabled(true);
+            findViewById(R.id.removeFriend).setEnabled(false);
+        }
 
     }
 
@@ -147,5 +194,16 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
         ParseUser.getCurrentUser().put("friends",tempFriends);
         ParseUser.getCurrentUser().saveInBackground();
         Toast.makeText(this, "add "+ friendName + " to my friend list", Toast.LENGTH_SHORT).show();
+    }
+
+    private void removeFriend(){
+
+        List tempFriends = ParseUser.getCurrentUser().getList("friends");
+        String friendName = mName.getText().toString();
+        tempFriends.remove(friendName);
+        ParseUser.getCurrentUser().put("friends",tempFriends);
+        ParseUser.getCurrentUser().saveInBackground();
+        Toast.makeText(this, "remove "+ friendName + " to my friend list", Toast.LENGTH_SHORT).show();
+
     }
 }

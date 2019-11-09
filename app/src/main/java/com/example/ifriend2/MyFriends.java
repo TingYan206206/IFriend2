@@ -48,7 +48,13 @@ public class MyFriends extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 // to do go to Profile page to load friend info
                 Intent intent = new Intent(getApplicationContext(), MyProfile.class);
+//                Bundle extras = new Bundle();
+//                extras.putString("name", friendList.get(i));
+//                extras.putBoolean("isMyFriend", isfriendList);
+//                intent.putExtra("friendInfo",extras);
                 intent.putExtra("name", friendList.get(i));
+                intent.putExtra("isMyFriend", isfriendList);
+//                Log.i("myfriends: isFri", Boolean.toString(isfriendList));
                 startActivity(intent);
             }
         });
@@ -58,6 +64,7 @@ public class MyFriends extends AppCompatActivity {
 
 
     private void retriveFriends(){
+        // if is retriveing my friendList
         if(isfriendList){
             Log.i("mY friends:", "my friends");
             ParseQuery<ParseUser> query = ParseUser.getQuery();
@@ -78,8 +85,10 @@ public class MyFriends extends AppCompatActivity {
                     }
                 }
             });
-        }else{
-            // send recommend Friend
+        }
+        // send recommend Friend
+        else{
+
             ParseQuery<ParseUser> query = ParseUser.getQuery();
             query.whereNotEqualTo("username",ParseUser.getCurrentUser().getUsername());
             Log.i("mY friends:", "recommand friends");
