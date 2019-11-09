@@ -34,6 +34,8 @@ public class MainPage extends AppCompatActivity implements View.OnClickListener{
                 break;
             case R.id.searchBtn:
                 Log.i(TAG,"search button clicked");
+                intent = new Intent(getApplicationContext(), Search.class);
+                startActivity(intent);
                 break;
             case R.id.messageBtn:
                 Log.i(TAG,"message button clicked");

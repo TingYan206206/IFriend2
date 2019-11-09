@@ -72,7 +72,7 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
         findViewById(R.id.save).setOnClickListener(this);
         findViewById(R.id.cancle).setOnClickListener(this);
         findViewById(R.id.addFriend).setOnClickListener(this);
-        findViewById(R.id.removeFriend).setOnClickListener(this);
+        findViewById(R.id.sendMessage).setOnClickListener(this);
 
     }
 
@@ -93,9 +93,9 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
                 Log.i("My profile:","add friend button clicked");
                 addFriend();
                 break;
-            case R.id.removeFriend:
+            case R.id.sendMessage:
                 Log.i("My profile:","remove friend button clicked");
-
+                sendMessage();
                 break;
             //This shouldn't happen
             default:
@@ -163,8 +163,8 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
 
         findViewById(R.id.addFriend).setEnabled(false);
         findViewById(R.id.addFriend).setVisibility(View.INVISIBLE);
-        findViewById(R.id.removeFriend).setEnabled(false);
-        findViewById(R.id.removeFriend).setVisibility(View.INVISIBLE);
+        findViewById(R.id.sendMessage).setEnabled(false);
+        findViewById(R.id.sendMessage).setVisibility(View.INVISIBLE);
 
     }
 
@@ -175,14 +175,15 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
         findViewById(R.id.cancle).setVisibility(View.INVISIBLE);
 
         findViewById(R.id.addFriend).setVisibility(View.VISIBLE);
-        findViewById(R.id.removeFriend).setVisibility(View.VISIBLE);
-        if(isMyFriend){
-            findViewById(R.id.addFriend).setEnabled(false);
-            findViewById(R.id.removeFriend).setEnabled(true);
-        }else{
-            findViewById(R.id.addFriend).setEnabled(true);
-            findViewById(R.id.removeFriend).setEnabled(false);
-        }
+        findViewById(R.id.sendMessage).setVisibility(View.VISIBLE);
+        findViewById(R.id.addFriend).setEnabled(true);
+        findViewById(R.id.sendMessage).setEnabled(true);
+//        if(isMyFriend){
+//
+//        }else{
+//            findViewById(R.id.addFriend).setEnabled(true);
+//            findViewById(R.id.sendMessage).setEnabled(false);
+//        }
 
     }
 
@@ -192,6 +193,21 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
     }
 
     private void addFriend(){
+
+        List tempFriends = ParseUser.getCurrentUser().getList("friends");
+        String friendName = mName.getText().toString();
+        if(!tempFriends.contains(friendName)){
+            tempFriends.add(friendName);
+            ParseUser.getCurrentUser().put("friends",tempFriends);
+            ParseUser.getCurrentUser().saveInBackground();
+            Toast.makeText(this, "add "+ friendName + " to my friend list", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(this, friendName + " is already added on my friend list", Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
+    private void sendMessage(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Send a Friend Request");
         final EditText requestEditText = new EditText(this);
@@ -224,16 +240,6 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
             }
         });
         builder.show();
-
-
-//        List tempFriends = ParseUser.getCurrentUser().getList("friends");
-//        String friendName = mName.getText().toString();
-//        tempFriends.add(friendName);
-//        ParseUser.getCurrentUser().put("friends",tempFriends);
-//        ParseUser.getCurrentUser().saveInBackground();
-//        Toast.makeText(this, "add "+ friendName + " to my friend list", Toast.LENGTH_SHORT).show();
-
-
     }
 
     private void removeFriend(){
@@ -244,6 +250,5 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
         ParseUser.getCurrentUser().put("friends",tempFriends);
         ParseUser.getCurrentUser().saveInBackground();
         Toast.makeText(this, "remove "+ friendName + " to my friend list", Toast.LENGTH_SHORT).show();
-
     }
 }
