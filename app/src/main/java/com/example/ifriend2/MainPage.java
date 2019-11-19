@@ -9,6 +9,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.MediaController;
+import android.widget.VideoView;
 
 import com.parse.ParseUser;
 
@@ -76,6 +78,14 @@ public class MainPage extends AppCompatActivity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
+
+        VideoView videoView = (VideoView) findViewById(R.id.videoView);
+        videoView.setVideoPath(("android.resource://" + getPackageName() + "/" + R.raw.school_viedo2));
+        videoView.start();
+        MediaController mediaController = new MediaController(this);
+        mediaController.setAnchorView(videoView);
+        videoView.setMediaController(mediaController);
+        videoView.start();
         //setTitle("iFriend");
         findViewById(R.id.searchBtn).setOnClickListener(this);
         findViewById(R.id.myFriendsBtn).setOnClickListener(this);
