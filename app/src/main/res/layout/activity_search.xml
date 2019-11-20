@@ -16,14 +16,20 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:orientation="horizontal">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Major" />
+            android:text="Major"
+            android:layout_marginLeft="30dp"
+            android:textColor="#3F51B5"
+            android:textSize="18sp"
+            android:textStyle="bold|italic" />
+
         <EditText
             android:id="@+id/major"
-            android:layout_width="wrap_content"
+            android:layout_width="164dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
@@ -44,10 +50,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_marginLeft="30dp"
+
+                android:textColor="#3F51B5"
+                android:textSize="18sp"
+                android:textStyle="bold|italic"
                 android:text="Hobby" />
+
             <EditText
                 android:id="@+id/hobby"
-                android:layout_width="wrap_content"
+                android:layout_width="170dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
@@ -71,7 +83,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginLeft="30dp"
+            android:textColor="#3F51B5"
+            android:textSize="18sp"
+            android:textStyle="bold|italic"
             android:text="Organization" />
+
         <EditText
             android:id="@+id/organization"
             android:layout_width="wrap_content"
@@ -82,6 +99,32 @@
             android:text="Enter Organization" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/levelLayout"
+        android:layout_below="@id/orgLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="200dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="288dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_weight="1"
+            android:text="Education Level"
+            android:textColor="#3F51B5"
+            android:textSize="18sp"
+            android:textStyle="bold|italic" />
+
+        <Spinner
+            android:id="@+id/spinner1"
+            android:layout_width="248dp"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/btn_dropdown"
+            android:spinnerMode="dropdown" />
+    </LinearLayout>
     <Button
 
         android:id="@+id/button"

@@ -5,14 +5,14 @@
     android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient"
+    android:background="#FFFFFF"
     tools:context=".MainActivity">
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="125dp"
-        android:scaleType="centerCrop"
+        android:layout_height="216dp"
         android:background="@drawable/background_pic"
+        android:scaleType="centerCrop"
         android:src="@drawable/gradient" />
 
     <TextView

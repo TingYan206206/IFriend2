@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_gradient"
     tools:context=".MainPage">
 
 <!--    <TextView-->
@@ -28,6 +29,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="200dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
         android:text="My Friends" />
 
     <Button
@@ -35,6 +38,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="300dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
         android:text="New Search" />
 
     <Button
@@ -42,6 +47,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="400dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
         android:text="Recommand Friend" />
 
     <Button
@@ -49,6 +56,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="500dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
         android:text="Message" />
 
 </RelativeLayout>
