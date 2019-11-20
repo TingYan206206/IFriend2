@@ -18,7 +18,7 @@
         android:padding="5dp"
         app:srcCompat="@android:drawable/sym_def_app_icon" />
 
-        <TextView
+    <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,100 +26,78 @@
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:text="Homer"
+        android:layout_marginTop="10dp"
         android:textSize="24sp"
         android:textStyle="bold" />
 
 
-    <EditText
+    <TextView
         android:id="@+id/description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/name"
         android:layout_centerHorizontal="true"
         android:gravity="center"
+        android:layout_marginTop="10dp"
         android:hint="Add your description"
         android:text="I love Math and TV show"
         android:textStyle="italic" />
 
-    <EditText
+    <TextView
         android:id="@+id/email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/description"
         android:layout_centerHorizontal="true"
         android:ems="10"
+        android:layout_marginTop="30dp"
         android:hint="Email address"
         android:inputType="textEmailAddress" />
 
-    <EditText
+    <TextView
         android:id="@+id/major"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/email"
         android:layout_centerHorizontal="true"
         android:ems="10"
+        android:layout_marginTop="10dp"
         android:hint="Major"
         android:inputType="textPersonName" />
 
-    <EditText
+    <TextView
         android:id="@+id/hobby"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/major"
         android:layout_centerHorizontal="true"
         android:ems="10"
+        android:layout_marginTop="10dp"
         android:hint="Hobby"
         android:inputType="textPersonName" />
 
-    <EditText
+    <TextView
         android:id="@+id/org"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/hobby"
         android:layout_centerHorizontal="true"
         android:ems="10"
+        android:layout_marginTop="10dp"
         android:hint="Organization"
         android:inputType="textPersonName" />
 
-    <EditText
+    <TextView
         android:id="@+id/level"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/org"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="2dp"
         android:ems="10"
+        android:layout_marginTop="10dp"
         android:hint="Education level"
         android:inputType="textPersonName" />
 
-<!--    <RadioGroup-->
-<!--        android:id="@+id/gender"-->
-<!--        android:layout_width="221dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_below="@+id/org"-->
-<!--        android:layout_centerHorizontal="true">-->
-
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:orientation="horizontal">-->
-
-<!--            <RadioButton-->
-<!--                android:id="@+id/male"-->
-<!--                android:layout_width="114dp"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:text="male" />-->
-
-<!--            <RadioButton-->
-<!--                android:id="@+id/female"-->
-<!--                android:layout_width="106dp"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:text="female" />-->
-
-<!--        </LinearLayout>-->
-
-
-<!--    </RadioGroup>-->
 
     <LinearLayout
         android:id="@+id/contri_friends"
@@ -127,7 +105,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/level"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal">
         <LinearLayout
             android:layout_width="0dp"
@@ -185,43 +163,47 @@
 
     </LinearLayout>
 
+
     <LinearLayout
-        android:id="@+id/editProfile"
+        android:id="@+id/actionfriends"
         android:layout_width="match_parent"
-        android:layout_height="63dp"
+        android:layout_height="80dp"
         android:layout_below="@id/contri_friends"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal">
 
-
         <Button
-            android:id="@+id/save"
-            android:layout_width="132dp"
+            android:id="@+id/addFriend"
+            android:layout_width="147dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
             android:layout_weight="1"
             android:background="#99C68E"
-            android:text="Save Change" />
+            android:layout_marginLeft="20dp"
+            android:text="Add Friend" />
 
         <TextView
-            android:id="@+id/textView"
-            android:layout_width="72dp"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
 
         <Button
-            android:id="@+id/cancle"
-            android:layout_width="129dp"
+            android:id="@+id/removeFriend"
+            android:layout_width="145dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="#FA8072"
             android:layout_marginRight="20dp"
-            android:text="Cancel" />
-
-
+            android:text="Remove Friend" />
 
     </LinearLayout>
 
-
-
+    <Button
+        android:id="@+id/sendMessage"
+        android:layout_width="218dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="570dp"
+        android:layout_weight="1"
+        android:background="#296d98"
+        android:text="Send Message" />
 </RelativeLayout>

@@ -47,14 +47,8 @@ public class MyFriends extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 // to do go to Profile page to load friend info
-                Intent intent = new Intent(getApplicationContext(), MyProfile.class);
-//                Bundle extras = new Bundle();
-//                extras.putString("name", friendList.get(i));
-//                extras.putBoolean("isMyFriend", isfriendList);
-//                intent.putExtra("friendInfo",extras);
+                Intent intent = new Intent(getApplicationContext(), FriendProfile.class);
                 intent.putExtra("name", friendList.get(i));
-                intent.putExtra("isMyFriend", isfriendList);
-//                Log.i("myfriends: isFri", Boolean.toString(isfriendList));
                 startActivity(intent);
             }
         });
