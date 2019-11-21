@@ -71,7 +71,7 @@
         android:hint="Hobby"
         android:inputType="textPersonName" />
 
-    <EditText
+    <TextView
         android:id="@+id/org"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -81,16 +81,39 @@
         android:hint="Organization"
         android:inputType="textPersonName" />
 
-    <EditText
-        android:id="@+id/level"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/org"
+    <LinearLayout
+        android:id="@+id/levelLayout"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_below="@id/org"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="2dp"
-        android:ems="10"
-        android:hint="Education level"
-        android:inputType="textPersonName" />
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/level"
+            android:layout_width="189dp"
+            android:layout_height="45dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="2dp"
+            android:ems="10"
+            android:hint="Education level"
+            android:inputType="textPersonName"
+            android:textColor="#0D0C0C"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/spinner1"
+            android:layout_width="175dp"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/btn_dropdown"
+            android:spinnerMode="dropdown" />
+
+
+    </LinearLayout>
+
+
 
 <!--    <RadioGroup-->
 <!--        android:id="@+id/gender"-->
@@ -125,7 +148,7 @@
         android:id="@+id/contri_friends"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/level"
+        android:layout_below="@id/levelLayout"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:orientation="horizontal">

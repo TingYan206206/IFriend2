@@ -17,6 +17,7 @@ import com.parse.ParseUser;
 public class MainPage extends AppCompatActivity implements View.OnClickListener{
 
     private static final String TAG = "MainPage";
+    VideoView videoView;
     @Override
     public void onClick(View view) {
         Log.i("main page", "button clicked" );
@@ -79,20 +80,31 @@ public class MainPage extends AppCompatActivity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
 
-        VideoView videoView = (VideoView) findViewById(R.id.videoView);
+        videoView= (VideoView) findViewById(R.id.videoView);
         videoView.setVideoPath(("android.resource://" + getPackageName() + "/" + R.raw.school_viedo2));
-        videoView.start();
         MediaController mediaController = new MediaController(this);
         mediaController.setAnchorView(videoView);
         videoView.setMediaController(mediaController);
         videoView.start();
+
         //setTitle("iFriend");
         findViewById(R.id.searchBtn).setOnClickListener(this);
         findViewById(R.id.myFriendsBtn).setOnClickListener(this);
         findViewById(R.id.messageBtn).setOnClickListener(this);
         findViewById(R.id.recommandBtn).setOnClickListener(this);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.i("main page:", "restart");
+    }
 
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        videoView.start();
+        Log.i("main page:", "resume");
     }
 }
