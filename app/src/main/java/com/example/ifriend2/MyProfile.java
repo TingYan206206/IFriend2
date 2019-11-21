@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -28,14 +29,12 @@ import com.parse.SaveCallback;
 
 import java.util.List;
 
-public class MyProfile extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener{
+public class MyProfile extends AppCompatActivity implements View.OnClickListener{
 
     TextView mName, mFriendsCount;
-    EditText mDescription, mEmail, mMajor, mHobby;
+    EditText mDescription, mEmail, mMajor, mHobby, mOrg, mlevel;
     Boolean isMyProfile, isMyFriend;
     String name;
-    private Spinner dropdown;
-    private static final String[] levels = new String[]{"Undergrad", "Master", "Doctor"};
 
     public void getPhoto() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -66,12 +65,7 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
         initializeComponents();
         name = ParseUser.getCurrentUser().getUsername();
 
-        dropdown = findViewById(R.id.spinner1);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, levels);
-//set the spinners adapter to the previously created one.
-        dropdown.setAdapter(adapter);
-        dropdown.setOnItemSelectedListener(this);
 
 //        Intent intent =getIntent();
 //        if(intent.hasExtra("name")) {
@@ -94,6 +88,7 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
 
 
         Log.i("My profile: ", "on create");
+        retriveProfile();
     }
 
 
@@ -103,6 +98,8 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
         mEmail = findViewById(R.id.email);
         mMajor = findViewById(R.id.major);
         mHobby = findViewById(R.id.hobby);
+        mOrg = findViewById(R.id.org);
+        mlevel = findViewById(R.id.level);
         mFriendsCount = findViewById(R.id.friendsCount);
 
 
@@ -117,8 +114,8 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
         Log.i("My profile: ", "button clicked");
         switch (view.getId()){
             case R.id.save:
-                //If new Note, call createNewNote()
                 Log.i("My profile:"," save button clicked");
+                saveChanges();
                 break;
             //If delete note, call deleteNewestNote()
             case R.id.cancle:
@@ -146,7 +143,10 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
                    if(objects.size() == 1){
                         mEmail.setText(objects.get(0).getString("email"));
                         mMajor.setText(objects.get(0).getString("major"));
-                        mFriendsCount.setText(Integer.toString(objects.get(0).getList("friends").size()));
+                        mHobby.setText(objects.get(0).getList("hobby").toString());
+                       mOrg.setText(objects.get(0).getList("organization").toString());
+                       mlevel.setText(objects.get(0).getString("level"));
+                       mFriendsCount.setText(Integer.toString(objects.get(0).getList("friends").size()));
 
                    }else{
                        Log.i("get user profile error:", "more than one record");
@@ -156,32 +156,33 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
         });
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
+    private void saveChanges(){
 
-        switch (position) {
-            case 0:
-                Log.i("position:", position + " value: " + levels[position]);
-                // Whatever you want to happen when the first item gets selected
-                break;
-            case 1:
-                // Whatever you want to happen when the second item gets selected
-                Log.i("position:", position + " value: 2");
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereEqualTo("username",name);
+        query.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> objects, ParseException e) {
+                if( e == null && objects.size() > 0){
+                    if(objects.size() == 1){
+                        // update changes to DB
+                        ParseUser user = objects.get(0);
+                        user.put("email", mEmail.getText().toString());
+                        user.saveInBackground();
+                        Log.i("update profile ", "info changed");
 
-                break;
-            case 2:
-                // Whatever you want to happen when the thrid item gets selected
-                Log.i("position:", position + " value: three");
 
-                break;
+                    }else{
+                        Log.i("get user profile error:", "more than one record");
+                    }
+                }
+            }
+        });
 
-        }
     }
 
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-        // TODO Auto-generated method stub
-    }
+
+
 
     private void setIsMyFriend(String name){
         final String searchName = name;
@@ -246,9 +247,7 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
     }
 
 
-    private void saveChanges(){
 
-    }
 
 
 }
