@@ -171,25 +171,13 @@
             android:id="@+id/save"
             android:layout_width="132dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
             android:layout_weight="1"
             android:background="#99C68E"
             android:text="Save Change" />
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="72dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
 
-        <Button
-            android:id="@+id/cancle"
-            android:layout_width="129dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#FA8072"
-            android:layout_marginRight="20dp"
-            android:text="Cancel" />
 
 
 

@@ -27,6 +27,8 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MyProfile extends AppCompatActivity implements View.OnClickListener{
@@ -104,7 +106,6 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
 
 
         findViewById(R.id.save).setOnClickListener(this);
-        findViewById(R.id.cancle).setOnClickListener(this);
         findViewById(R.id.ivProfile).setOnClickListener(this);
     }
 
@@ -117,12 +118,8 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
                 Log.i("My profile:"," save button clicked");
                 saveChanges();
                 break;
-            //If delete note, call deleteNewestNote()
-            case R.id.cancle:
-                Log.i("My profile:","cancel button clicked");
-                break;
             case R.id.ivProfile:
-                Log.i("My profile:","remove friend button clicked");
+                Log.i("My profile:","profile pic clicked");
                 getPhoto();
                 break;
             //This shouldn't happen
@@ -141,12 +138,16 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
             public void done(List<ParseUser> objects, ParseException e) {
                if( e == null && objects.size() > 0){
                    if(objects.size() == 1){
-                        mEmail.setText(objects.get(0).getString("email"));
-                        mMajor.setText(objects.get(0).getString("major"));
-                        mHobby.setText(objects.get(0).getList("hobby").toString());
-                       mOrg.setText(objects.get(0).getList("organization").toString());
-                       mlevel.setText(objects.get(0).getString("level"));
-                       mFriendsCount.setText(Integer.toString(objects.get(0).getList("friends").size()));
+                       ParseUser user = objects.get(0);
+                       mDescription.setText(user.getString("description"));
+                        mEmail.setText(user.getString("email"));
+                        mMajor.setText(user.getString("major"));
+                        String hobby = user.getList("hobby").toString();
+                        mHobby.setText(hobby.substring(1,hobby.length() -1));
+                       String org = user.getList("organization").toString();
+                       mOrg.setText(org.substring(1, org.length()-1));
+                       mlevel.setText(user.getString("level"));
+                       mFriendsCount.setText(Integer.toString(user.getList("friends").size()));
 
                    }else{
                        Log.i("get user profile error:", "more than one record");
@@ -167,7 +168,14 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
                     if(objects.size() == 1){
                         // update changes to DB
                         ParseUser user = objects.get(0);
+                        user.put("description", mDescription.getText().toString());
                         user.put("email", mEmail.getText().toString());
+                        user.put("major", mMajor.getText().toString().toUpperCase());
+                        user.put("level", mlevel.getText().toString().toUpperCase());
+                        List hobby = new ArrayList<String>(Arrays.asList(mHobby.getText().toString().split(",")));
+                        user.put("hobby", hobby);
+                        List org = new ArrayList<String>(Arrays.asList(mOrg.getText().toString().toUpperCase().split(",")));
+                        user.put("organization", org);
                         user.saveInBackground();
                         Log.i("update profile ", "info changed");
 
@@ -184,67 +192,67 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
 
 
 
-    private void setIsMyFriend(String name){
-        final String searchName = name;
-
-        Log.i("search friend1", name);
-        Log.i("search friend", searchName);
-        ParseQuery<ParseUser> query = ParseUser.getQuery();
-        query.whereEqualTo("username",ParseUser.getCurrentUser().getUsername());
-        query.findInBackground(new FindCallback<ParseUser>() {
-            @Override
-            public void done(List<ParseUser> objects, ParseException e) {
-                if( e == null && objects.size() > 0){
-                    if(objects.size() == 1 && objects.get(0).getList("friends").size() > 0){
-
-                        for (Object friend : objects.get(0).getList("friends")) {
-                            Log.i("friend list", friend.toString());
-                            if(friend.toString().equals(searchName)){
-                                isMyFriend = true;
-                                Log.i("inside:", "is my friend");
-                            }
-                        }
-
-                    }else{
-                        Log.i("get user profile error:", "more than one record");
-                    }
-                }
-            }
-        });
-
-    }
-
-    private void enableMyProfile(){
-        findViewById(R.id.save).setEnabled(true);
-        findViewById(R.id.cancle).setEnabled(true);
-        findViewById(R.id.save).setVisibility(View.VISIBLE);
-        findViewById(R.id.cancle).setVisibility(View.VISIBLE);
-
-        findViewById(R.id.addFriend).setEnabled(false);
-        findViewById(R.id.addFriend).setVisibility(View.INVISIBLE);
-        findViewById(R.id.sendMessage).setEnabled(false);
-        findViewById(R.id.sendMessage).setVisibility(View.INVISIBLE);
-
-    }
-
-    private void disableMyProfile(){
-        findViewById(R.id.save).setEnabled(false);
-        findViewById(R.id.cancle).setEnabled(false);
-        findViewById(R.id.save).setVisibility(View.INVISIBLE);
-        findViewById(R.id.cancle).setVisibility(View.INVISIBLE);
-
-        findViewById(R.id.addFriend).setVisibility(View.VISIBLE);
-        findViewById(R.id.sendMessage).setVisibility(View.VISIBLE);
-        findViewById(R.id.addFriend).setEnabled(true);
-        findViewById(R.id.sendMessage).setEnabled(true);
-//        if(isMyFriend){
+//    private void setIsMyFriend(String name){
+//        final String searchName = name;
 //
-//        }else{
-//            findViewById(R.id.addFriend).setEnabled(true);
-//            findViewById(R.id.sendMessage).setEnabled(false);
-//        }
-
-    }
+//        Log.i("search friend1", name);
+//        Log.i("search friend", searchName);
+//        ParseQuery<ParseUser> query = ParseUser.getQuery();
+//        query.whereEqualTo("username",ParseUser.getCurrentUser().getUsername());
+//        query.findInBackground(new FindCallback<ParseUser>() {
+//            @Override
+//            public void done(List<ParseUser> objects, ParseException e) {
+//                if( e == null && objects.size() > 0){
+//                    if(objects.size() == 1 && objects.get(0).getList("friends").size() > 0){
+//
+//                        for (Object friend : objects.get(0).getList("friends")) {
+//                            Log.i("friend list", friend.toString());
+//                            if(friend.toString().equals(searchName)){
+//                                isMyFriend = true;
+//                                Log.i("inside:", "is my friend");
+//                            }
+//                        }
+//
+//                    }else{
+//                        Log.i("get user profile error:", "more than one record");
+//                    }
+//                }
+//            }
+//        });
+//
+//    }
+//
+//    private void enableMyProfile(){
+//        findViewById(R.id.save).setEnabled(true);
+//        findViewById(R.id.cancle).setEnabled(true);
+//        findViewById(R.id.save).setVisibility(View.VISIBLE);
+//        findViewById(R.id.cancle).setVisibility(View.VISIBLE);
+//
+//        findViewById(R.id.addFriend).setEnabled(false);
+//        findViewById(R.id.addFriend).setVisibility(View.INVISIBLE);
+//        findViewById(R.id.sendMessage).setEnabled(false);
+//        findViewById(R.id.sendMessage).setVisibility(View.INVISIBLE);
+//
+//    }
+//
+//    private void disableMyProfile(){
+//        findViewById(R.id.save).setEnabled(false);
+//        findViewById(R.id.cancle).setEnabled(false);
+//        findViewById(R.id.save).setVisibility(View.INVISIBLE);
+//        findViewById(R.id.cancle).setVisibility(View.INVISIBLE);
+//
+//        findViewById(R.id.addFriend).setVisibility(View.VISIBLE);
+//        findViewById(R.id.sendMessage).setVisibility(View.VISIBLE);
+//        findViewById(R.id.addFriend).setEnabled(true);
+//        findViewById(R.id.sendMessage).setEnabled(true);
+////        if(isMyFriend){
+////
+////        }else{
+////            findViewById(R.id.addFriend).setEnabled(true);
+////            findViewById(R.id.sendMessage).setEnabled(false);
+////        }
+//
+//    }
 
 
 
